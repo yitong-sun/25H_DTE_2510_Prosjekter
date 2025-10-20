@@ -45,12 +45,12 @@ Eksempel på kjøring:
 Kjør programmet med Python (versjon 3.13):
 
 ```bash
-python Subliste.py
+python  O3_Subliste.py
 ```
 
 
 Du kan også bruke kommandolinjeargumenter:
-python Subliste.py --size 5 --seed 42 --save
+python  O3_Subliste.py --size 5 --seed 42 --save
 
 
 Argumenter:
@@ -66,7 +66,7 @@ Argumenter:
 
 ## Eksempel på config.json
 
-Du kan opprette en valgfri config.json i samme mappe som main.py:
+Du kan opprette en valgfri config.json i samme mappe som  O3_Subliste.py:
 {
     "size": 5,
     "seed": 42,
