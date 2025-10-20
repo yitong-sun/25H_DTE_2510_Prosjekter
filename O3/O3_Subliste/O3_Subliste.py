@@ -1,5 +1,10 @@
 '''
 Program: Matrisesystem med tilfeldig utvalg
+I lenken under finnes en detaljert README.md med prosjektbeskrivelse,
+kjøringsinstruksjoner og eksempel på output:
+https://github.com/yitong-sun/25H_DTE_2510_Prosjekter/tree/main/O3/O3_Subliste
+
+
 Beskrivelse:
     Dette programmet genererer en N x N matrise med tilfeldige heltall mellom 0 og 9.
     For hver rad velges et tilfeldig tall, og programmet lager en subliste fra
