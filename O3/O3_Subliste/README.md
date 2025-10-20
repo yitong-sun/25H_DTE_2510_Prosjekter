@@ -45,12 +45,12 @@ Eksempel på kjøring:
 Kjør programmet med Python (versjon 3.13):
 
 ```bash
-python main.py
+python Subliste.py
 ```
 
 
 Du kan også bruke kommandolinjeargumenter:
-python main.py --size 5 --seed 42 --save
+python Subliste.py --size 5 --seed 42 --save
 
 
 Argumenter:
