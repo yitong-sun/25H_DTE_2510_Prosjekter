@@ -46,6 +46,7 @@ Kjør programmet med Python (versjon 3.13):
 
 ```bash
 python main.py
+```
 
 
 Du kan også bruke kommandolinjeargumenter:
