@@ -1,97 +1,153 @@
-# DTE2510 - Matrisesystem med tilfeldig utvalg
+# DTE2510 – Matrisesystem med tilfeldig utvalg
 
 ## Beskrivelse
-Dette programmet genererer en **N x N matrise** med tilfeldige heltall mellom `0` og `9`.  
-For hver rad velger programmet et tilfeldig tall, og lager en **subliste** som starter fra  
-det valgte tallet og går ut til slutten av raden.
 
-Resultatene vises i konsollen, og brukeren kan velge å **lagre resultatene til en JSON-fil**  
-med metadata (størrelse, seed, tidsstempel).
+Programmet genererer en **N × N matrise** med heltall i intervallet `0–9`.
+For **hver rad** velges ett **tilfeldig tall**; programmet lager deretter en **subliste** fra **indeksen til den første forekomsten** av dette tallet og ut til slutten av raden.
+Sublisten lages **med list comprehension** (krav i oppgaven) – **uten** slicing og uten eksplisitt `for`-løkke.
+
+Resultatene skrives til konsollen. Du kan valgfritt **lagre som JSON** med metadata (`N`, `random_seed`, tidsstempel i ISO-8601).
+
+---
+
+## Forutsetninger
+
+* Python **3.13**
+* (Valgfritt) `config.json` i samme mappe som programmet
 
 ---
 
 ## Funksjoner
-- Genererer matriser med tilfeldige tall
-- Tilfeldig utvalg fra hver rad
-- Viser resultatene i ryddig format
-- Valgfri lagring til `.json` i `results/`-mappen
-- Støtte for `config.json` og kommandolinjeargumenter
-- Logging (INFO/DEBUG)
-- Feilhåndtering for ugyldig input
+
+* Genererer matriser med tilfeldige tall (`0–9`)
+* For hver rad: tilfeldig verdi → subliste fra første forekomst til slutt
+* Ryddig utskrift til konsoll
+* Valgfri lagring til **`.json`**
+* Støtte for **`config.json`** og **kommandolinjeargumenter**
+* **Logging** (`INFO`/`DEBUG`), robust håndtering av ugyldig input
+* **Interaktiv** og **ikke-interaktiv** kjøring:
+
+  * Interaktiv: ber om `N` og (ev.) bekreftelse på lagring
+  * Ikke-interaktiv: `--no-interactive` eller oppgi alle nødvendige flagg
+
+> **Merk om duplikater i raden:** Dersom det valgte tallet finnes flere ganger, brukes **indeksen til første forekomst**.
 
 ---
 
-## Eksempel på kjøring
-
-
-Eksempel på kjøring:
-    Oppgi størrelse på matrisen (N): 5
-
-    2025-10-20 15:01:04,634 - main - INFO - Generer matrise N=5
-    === Resulater ===
-    Rad0: [6, 9, 2, 2, 5],tilfeldig_tall = 2,start_index = 2,subliste = [2, 2, 5]
-    Rad1: [0, 1, 7, 2, 0],tilfeldig_tall = 0,start_index = 0,subliste = [0, 1, 7, 2, 0]
-    Rad2: [4, 2, 9, 2, 9],tilfeldig_tall = 9,start_index = 2,subliste = [9, 2, 9]
-    Rad3: [9, 0, 0, 9, 6],tilfeldig_tall = 9,start_index = 0,subliste = [9, 0, 0, 9, 6]
-    Rad4: [4, 7, 7, 5, 6],tilfeldig_tall = 7,start_index = 1,subliste = [7, 7, 5, 6]
-
-    Vil du lagre resultatene til JSON? (y/N): y
-
-    2025-10-20 15:01:08,191 - main - INFO - Resultater skrevet til /Users/yitongsun/PyCharmMiscProject/DTE_2510/results/resultater_20251020_150108.json
-    Lagret: /Users/yitongsun/PyCharmMiscProject/DTE_2510/O3/results/resultater_20251020_150108.json
-
-
 ## Bruk
-Kjør programmet med Python (versjon 3.13):
+
+### Interaktiv kjøring
 
 ```bash
-python  O3_Subliste.py
+python O3_Subliste.py
 ```
 
+* Programmet spør etter `N`.
+* Deretter kan du velge om du vil lagre resultatene.
 
-Du kan også bruke kommandolinjeargumenter:
-python  O3_Subliste.py --size 5 --seed 42 --save
+### Ikke-interaktiv kjøring (eksempler)
 
+```bash
+# Generer N=5 og lagre automatisk til default-fil i results/
+python O3_Subliste.py -n 5 --save
 
-Argumenter:
+# Generer og lagre til egendefinert filnavn i results/
+python O3_Subliste.py -n 5 -o foo.json --save
 
-| Flag           | Forklaring                        |
-| -------------- | --------------------------------- |
-| `-n, --size`   | Matrisestørrelse (N)              |
-| `--seed`       | Tilfeldighetsfrø for reproduksjon |
-| `--save`       | Lagre resultatene uten spørsmål   |
-| `-o, --output` | Egendefinert filnavn              |
-| `--debug`      | Slå på detaljert logging          |
+# Generer og lagre til en absolutt sti (respekteres uendret)
+python O3_Subliste.py -n 5 -o /Users/dittnavn/Desktop/foo.json --save
+```
 
+### Argumenter
 
-## Eksempel på config.json
+| Flag               | Forklaring                                                                      |
+| ------------------ | ------------------------------------------------------------------------------- |
+| `-n, --size`       | Matrisestørrelse `N`. Mangler denne, spør programmet interaktivt.               |
+| `--seed`           | Tilfeldighetsfrø for reproduksjon (samles internt til `random_seed`).           |
+| `--save`           | Lagre uten å spørre.                                                            |
+| `-o, --output`     | Utdatafil. **Relativt** navn lagres i `results/`; **absolutt** sti respekteres. |
+| `--debug`          | Slå på detaljert logging (`DEBUG`).                                             |
+| `--no-interactive` | Deaktiver interaktiv input (krever gyldig `-n/--size`).                         |
 
-Du kan opprette en valgfri config.json i samme mappe som  O3_Subliste.py:
+> **Tips:** I enkelte IDE-konsoller er ikke stdin interaktiv. Programmet forsøker interaktiv input, og faller kontrollert tilbake med tydelig feilmelding om input ikke er tilgjengelig. Bruk da `-n/--size` (og ev. `--save`).
+
+---
+
+## Eksempler (kort oppsummering)
+
+1. **Ren terminalinteraksjon + bekreftet lagring**
+2. **Ikke-interaktiv** – direkte lagring (`-n 5 --save`)
+3. **Ugyldig N** → interaktiv korrigering
+4. **Ikke-interaktiv + ugyldig N** → kontrollert avslutning
+5. **Relativt filnavn** lagres i `results/` (f.eks. `-o foo.json`)
+6. **Absolutt sti** lagres uendret (f.eks. til `Desktop`)
+
+---
+
+## `config.json` (valgfritt)
+
+Plasseres i samme mappe som `O3_Subliste.py`. Felt i `config.json` flettes med CLI og standardverdier (prioritet **CLI > config.json > defaults**).
+
+```json
 {
-    "size": 5,
-    "seed": 42,
-    "save": true,
-    "debug": false
+  "size": 5,
+  "random_seed": 42,
+  "save": true,
+  "debug": false
 }
+```
+
+> For bakoverkompatibilitet kan også `"seed"` i config leses, men internt samles dette til `"random_seed"`.
+
+---
 
 ## Output
 
-Når lagring er aktivert, opprettes filer automatisk i results/-mappen:
+* **Standardmappe:** `results/`
+
+  * Relativt filnavn (`-o foo.json`) → `results/foo.json`
+* **Absolutt sti:** respekteres uendret
+
+**Eksempel på struktur:**
+
+```
 results/
 └── resultater_20251020_214300.json
+```
 
-JSON-filen inneholder både resultatene og metadata:
+**Eksempel på JSON-innhold:**
+
+```json
 {
-    "metadata": {
-        "N": 5,
-        "seed": 42,
-        "timestamp": "20251020_214300"
-    },
-    "resultater": [...]
+  "metadata": {
+    "N": 5,
+    "random_seed": 42,
+    "timestamp": "2025-10-20T21:43:00+02:00"
+  },
+  "resultater": [
+    {
+      "radnummer": 0,
+      "rad": [6, 9, 2, 2, 5],
+      "tilfeldig_tall": 2,
+      "start_index": 2,
+      "subliste": [2, 2, 5]
+    }
+    // ...
+  ]
 }
+```
 
+> `timestamp` er i **ISO-8601** med tidssone og sekundoppløsning.
+
+---
+
+## Logging
+
+* `INFO` som standard, `--debug` gir mer detaljert output.
+* Logger-navn: `main`. Logging konfigureres med `force=True` for å unngå dupliserte handlere ved gjentatte kjøringer.
+
+---
 
 ## Versjon
 
 v1.0 - Første stabile versjon
-

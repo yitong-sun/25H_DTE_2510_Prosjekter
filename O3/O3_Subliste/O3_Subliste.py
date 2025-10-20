@@ -6,7 +6,7 @@ Beskrivelse:
     dette tallet og ut til slutten av raden.
 
     Brukeren kan velge å lagre resultatene i en JSON-fil som inneholder metadata
-    (matrisestørrelse, seed, og tidsstempel).
+    (matrisestørrelse, random_seed, og tidsstempel).
 
 Argumenter:
     -n, --size   : Størrelse på matrisen (N)
@@ -15,12 +15,20 @@ Argumenter:
     -o, --output : Angi eget filnavn
     --debug      : Slå på detaljert logging
 
+Oppsummering av kjøringer：
+1. Ren terminalinteraksjon + bekreftet lagring
+2. Ikke-interaktiv kjøring lagrer direkte (-n 5 --save)
+3. Ugyldig N → interaktiv korrigering
+4. Ikke-interaktiv + ugyldig N → kontrollert avslutning
+5. Relativt filnavn lagres i `results/`
+6. Absolutt sti lagres uendret (f.eks. Desktop)
 
-Eksempel på kjøring:
+
+Eksempel 1 på kjøring:
     Oppgi størrelse på matrisen (N): 5
 
     2025-10-20 15:01:04,634 - main - INFO - Generer matrise N=5
-    === Resulater ===
+    === Resultater ===
     Rad0: [6, 9, 2, 2, 5],tilfeldig_tall = 2,start_index = 2,subliste = [2, 2, 5]
     Rad1: [0, 1, 7, 2, 0],tilfeldig_tall = 0,start_index = 0,subliste = [0, 1, 7, 2, 0]
     Rad2: [4, 2, 9, 2, 9],tilfeldig_tall = 9,start_index = 2,subliste = [9, 2, 9]
@@ -31,10 +39,71 @@ Eksempel på kjøring:
 
     2025-10-20 15:01:08,191 - main - INFO - Resultater skrevet til /Users/yitongsun/PyCharmMiscProject/DTE_2510/results/resultater_20251020_150108.json
     Lagret: /Users/yitongsun/PyCharmMiscProject/DTE_2510/O3/results/resultater_20251020_150108.json
+
+Eksempel 2 på kjøring:
+    (.venv) yitongsun@YitongdeMacBook-Air O3_Subliste % python O3_Subliste.py -n 5 --save
+    2025-10-20 21:46:52,346 - main - INFO - Generer matrise N=5
+
+    === Resultater ===
+    Rad0: [0, 0, 5, 2, 2], tilfeldig_tall = 2, start_index = 3, subliste = [2, 2]
+    Rad1: [2, 6, 4, 9, 7], tilfeldig_tall = 9, start_index = 3, subliste = [9, 7]
+    Rad2: [2, 8, 4, 6, 3], tilfeldig_tall = 8, start_index = 1, subliste = [8, 4, 6, 3]
+    Rad3: [3, 6, 2, 3, 7], tilfeldig_tall = 2, start_index = 2, subliste = [2, 3, 7]
+    Rad4: [2, 2, 4, 2, 6], tilfeldig_tall = 2, start_index = 0, subliste = [2, 2, 4, 2, 6]
+    2025-10-20 21:46:52,346 - main - INFO - Resultater skrevet til /Users/yitongsun/PyCharmMiscProject/25H_DTE_2510/O3/O3_Subliste/results/resultater_20251020_214652.json
+
+    Lagret: /Users/yitongsun/PyCharmMiscProject/25H_DTE_2510/O3/O3_Subliste/results/resultater_20251020_214652.json
+
+Eksempel 3 på kjøring:
+    (.venv) yitongsun@YitongdeMacBook-Air O3_Subliste % python O3_Subliste.py -n 0
+    Ugyldig verdi! N må være et positivt heltall.
+    Oppgi en ny verdi interaktivt i stedet.
+
+    Oppgi størrelse på matrisen (N):
+
+    Kontinuering som Eksempel 1.
+
+Eksempel 4 på kjøring:
+    (.venv) yitongsun@YitongdeMacBook-Air O3_Subliste % python O3_Subliste.py -n 0 --no-interactive
+    Ugyldig verdi! N må være et positivt heltall.
+    Avslutter fordi interaktiv modus er deaktivert.
+
+Eksempel 5 på kjøring:
+    (.venv) yitongsun@YitongdeMacBook-Air O3_Subliste % python O3_Subliste.py -n 5 -o foo.json
+    2025-10-20 21:53:05,414 - main - INFO - Generer matrise N=5
+
+    === Resultater ===
+    Rad0: [9, 3, 4, 3, 5], tilfeldig_tall = 5, start_index = 4, subliste = [5]
+    Rad1: [3, 3, 3, 8, 8], tilfeldig_tall = 3, start_index = 0, subliste = [3, 3, 3, 8, 8]
+    Rad2: [9, 6, 0, 3, 9], tilfeldig_tall = 0, start_index = 2, subliste = [0, 3, 9]
+    Rad3: [3, 8, 6, 9, 2], tilfeldig_tall = 2, start_index = 4, subliste = [2]
+    Rad4: [1, 5, 5, 0, 0], tilfeldig_tall = 1, start_index = 0, subliste = [1, 5, 5, 0, 0]
+
+    Vil du lagre resultatene til JSON? (y/N): y
+    2025-10-20 21:53:10,424 - main - INFO - Resultater skrevet til /Users/yitongsun/PyCharmMiscProject/25H_DTE_2510/O3/O3_Subliste/results/foo.json
+
+    Lagret: /Users/yitongsun/PyCharmMiscProject/25H_DTE_2510/O3/O3_Subliste/results/foo.json
+
+Eksempel 6 på kjøring:
+    (.venv) yitongsun@YitongdeMacBook-Air O3_Subliste % python O3_Subliste.py -n 5 -o /Users/yitongsun/Desktop/foo.json
+    2025-10-20 21:59:23,318 - main - INFO - Generer matrise N=5
+
+    === Resultater ===
+    Rad0: [1, 8, 4, 9, 0], tilfeldig_tall = 1, start_index = 0, subliste = [1, 8, 4, 9, 0]
+    Rad1: [1, 9, 5, 1, 8], tilfeldig_tall = 5, start_index = 2, subliste = [5, 1, 8]
+    Rad2: [8, 3, 2, 3, 1], tilfeldig_tall = 2, start_index = 2, subliste = [2, 3, 1]
+    Rad3: [5, 1, 1, 3, 5], tilfeldig_tall = 1, start_index = 1, subliste = [1, 1, 3, 5]
+    Rad4: [2, 7, 9, 9, 8], tilfeldig_tall = 9, start_index = 2, subliste = [9, 9, 8]
+
+    Vil du lagre resultatene til JSON? (y/N): y
+    2025-10-20 21:59:26,035 - main - INFO - Resultater skrevet til /Users/yitongsun/Desktop/foo.json
+
+    Lagret: /Users/yitongsun/Desktop/foo.json
 '''
 
 import logging
-import random
+import random as rnd
+from random import randint, choice
 from datetime import datetime
 from pathlib import Path
 import argparse
@@ -42,32 +111,33 @@ import json
 from typing import Any
 
 
+# Modulnavngitt logger. Bruker root-handlere konfigurert i setup_logging().
+logger = logging.getLogger('main')
 
 # ---------- Logging ----------
-def setup_logging(debug:bool=False) -> None:
-    '''
+def setup_logging(debug: bool = False) -> None:
+    """
     Konfigurerer logging for applikasjonen.
 
     Args:
         debug: Hvis True, settes loggnivå til DEBUG. Ellers brukes INFO.
-    '''
-    # Setter loggnivå basert på debug-modus
+    """
     level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(
         level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',)
-logger = logging.getLogger('main') # Hovedlogger for hele programmet
-
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        # Sikrer at tidligere handlere erstattes slik at vi ikke får duplisert logging.
+        force=True
+    )
 
 # ---------- Config ----------
 DEFAULTS: dict[str, Any] = { #here can use dict instead of Dict if python 3.9 or later
     'size': None,   # None = ask interactively
-    'seed': None,   # Optional[int], Frø for tilfeldige tall
+    'random_seed': None,   # Optional[int], Frø for tilfeldige tall
     'save': False,
     'output': None, # Filnavn genereres hvis None
     'debug': False  # Slår av debug som standard
 }
-
 
 # ---------- Last Config ----------
 def load_config(path: str = 'config.json') -> dict[str, Any]:
@@ -78,10 +148,9 @@ def load_config(path: str = 'config.json') -> dict[str, Any]:
         path: Filstien til konfigurasjonsfilen (standard er 'config.json').
 
     Returns:
-        dict[str, any]: Et ordbokobjekt med innstillinger. Tomt dict hvis filen ikke finnes eller er ugyldig.
-
-    Raises:
-        json.JSONDecodeError: Hvis filen finnes men inneholder ugyldig JSON.
+        dict[str, Any]: Et ordbokobjekt med innstillinger.
+        Hvis filen ikke finnes eller inneholder ugyldig JSON, returneres {}.
+        Hendelsen logges som en advarsel, og programmet fortsetter.
     '''
     p = Path(path)
     if not p.exists():
@@ -89,12 +158,13 @@ def load_config(path: str = 'config.json') -> dict[str, Any]:
     try:
         return json.loads(p.read_text(encoding='utf-8'))
     except json.JSONDecodeError as e:
-        print(f'Ugyldig JSON i {path}: {e}. Ignorgerer filen.')
+        logger.warning('Ugyldig JSON i %s: %s. Ignorerer filen.', path, e)
         return {}
 
-
 # ---------- Flett Config ----------
-def merge_config(cli: argparse.Namespace, cfg: dict[str, Any], defaults: dict[str, Any]) -> dict[str, Any]:
+def merge_config(cli: argparse.Namespace,
+                 cfg: dict[str, Any],
+                 defaults: dict[str, Any]) -> dict[str, Any]:
     '''
     Slår sammen innstillinger fra kommandolinje, konfigurasjonsfil og standardverdier.
 
@@ -106,7 +176,7 @@ def merge_config(cli: argparse.Namespace, cfg: dict[str, Any], defaults: dict[st
         defaults: Standardverdier som brukes hvis andre kilder mangler.
 
     Returns:
-        dict[str, any]: Et ordbokobjekt med sammenslåtte innstillinger.
+        dict[str, Any]: Et ordbokobjekt med sammenslåtte innstillinger.
     '''
     def pick(key: str, cli_value: Any, cfg_value: Any, default_value: Any) -> Any:
         return (
@@ -115,11 +185,14 @@ def merge_config(cli: argparse.Namespace, cfg: dict[str, Any], defaults: dict[st
             else (cfg_value if cfg_value is not None else default_value)
         )
 
-    merged: dict[str, any] = {
+    merged: dict[str, Any] = {
         # .get() → Brukes når du ikke er sikker på om nøkkelen finnes.
         # [...] → Brukes når du er sikker på at nøkkelen finnes.
         'size': pick('size', cli.size, cfg.get('size'), defaults['size']),
-        'seed': pick('seed', cli.seed, cfg.get('seed'), defaults['seed']),
+        'random_seed': pick('random_seed',
+                            getattr(cli, 'seed', None),
+                            cfg.get('random_seed') or cfg.get('seed'),
+                            defaults['random_seed']),
         'save': pick('save', cli.save, cfg.get('save'), defaults['save']),
         'output': pick('output', cli.output, cfg.get('output'), defaults['output']),
         'debug': pick('debug', cli.debug, cfg.get('debug'), defaults['debug']),
@@ -138,8 +211,7 @@ def generer_matrise(N: int) -> list[list[int]]:
     Returns:
          list[list[int]]: En NxN matrise med tilfeldige heltall fra 0 til 9.
     '''
-    return [[random.randint(0, 9) for _ in range(N)] for _ in range(N)]
-
+    return [[randint(0, 9) for _ in range(N)] for _ in range(N)]
 
 
 def behandle_rad(rad: list[int]) -> tuple[int, int, list[int]]:
@@ -152,14 +224,14 @@ def behandle_rad(rad: list[int]) -> tuple[int, int, list[int]]:
     Returns:
         tuple[int, int, list[int]]: (tilfeldig_tall, start_index, subliste)
     '''
-    tilfeldig_tall = random.choice(rad)
+    tilfeldig_tall = choice(rad)
     start_index = rad.index(tilfeldig_tall)
     subliste = [rad[j] for j in range(len(rad)) if j >= start_index]
     return tilfeldig_tall, start_index, subliste
 
 
 
-def behandle_matrise(matrise: list[list[int]]) -> list[dict]:
+def behandle_matrise(matrise: list[list[int]]) -> list[dict[str, Any]]:
     '''
     Behandler matrisen og returnerer resultater for hver rad.
 
@@ -169,7 +241,7 @@ def behandle_matrise(matrise: list[list[int]]) -> list[dict]:
     Returns:
         En liste med resultater per rad.
     '''
-    resultater = []
+    resultater: list[dict[str, Any]] = []
     for i, rad in enumerate(matrise):
         # enumerate() gir (indeks, rad)
         t, idx, sub = behandle_rad(rad)
@@ -188,7 +260,7 @@ def behandle_matrise(matrise: list[list[int]]) -> list[dict]:
     return resultater
 
 
-def skriv_resultater(resultater: list[dict]) -> None:
+def skriv_resultater(resultater: list[dict[str, Any]]) -> None:
     '''
     Skriver resultatene til konsollen på en lesbar måte.
 
@@ -197,12 +269,11 @@ def skriv_resultater(resultater: list[dict]) -> None:
     '''
     for r in resultater:
         print(
-            f"Rad{r['radnummer']}: {r['rad']},"
-            f"tilfeldig_tall = {r['tilfeldig_tall']},"
-            f"start_index = {r['start_index']},"
+            f"Rad{r['radnummer']}: {r['rad']}, "
+            f"tilfeldig_tall = {r['tilfeldig_tall']}, "
+            f"start_index = {r['start_index']}, "
             f"subliste = {r['subliste']}"
         )
-
 
 
 def lag_timestamp_navn(prefix:str = 'resultater', ext: str = '.json') -> str:
@@ -220,9 +291,12 @@ def lag_timestamp_navn(prefix:str = 'resultater', ext: str = '.json') -> str:
     return f'{prefix}_{ts}{ext}'
 
 
-def lagre_til_json(resultater: list[dict], filnavn:str | Path, N: int, seed: int | None) -> Path :
+def lagre_til_json(resultater: list[dict[str, Any]],
+                   filnavn:str | Path,
+                   N: int,
+                   random_seed: int | None) -> Path :
     '''
-    Lagrer resultatene i en JSON-fil med metadata (N, seed, timestamp).
+    Lagrer resultatene i en JSON-fil med metadata (N, random_seed, timestamp).
 
     Args:
         resultater: Liste med resultater fra behandlingen.
@@ -242,8 +316,9 @@ def lagre_til_json(resultater: list[dict], filnavn:str | Path, N: int, seed: int
     data = {
         'metadata': {
             'N': N,
-            'seed': seed,
-            'timestamp': datetime.now().strftime('%Y%m%d_%H%M%S'),
+            'random_seed': random_seed,
+            # ISO 8601 med tidssone, sekundoppløsning
+            'timestamp': datetime.now().astimezone().isoformat(timespec='seconds'),
         },
         'resultater': resultater
     }
@@ -282,7 +357,7 @@ def build_parser() -> argparse.ArgumentParser:
         argparse.ArgumentParser: Parser for programargumentene.
     '''
     p = argparse.ArgumentParser(
-        description='Generer matrise og lag sublister for her rad.'
+        description='Generer matrise og lag sublister for hver rad.'
     )
 
     p.add_argument(
@@ -315,8 +390,44 @@ def build_parser() -> argparse.ArgumentParser:
         help='Vis debug-logging.'
     )
 
+    p.add_argument(
+        '--no-interactive',
+        action='store_true',
+        help='Deaktiver interaktiv input. Krever at -n/--size oppgis.'
+    )
+
     return p
 
+
+def run_pipeline(N: int, random_seed: int | None, logger: logging.Logger) -> dict[str, Any]:
+    '''
+    Kjør den rene beregningspipen: valgfritt sett RNG-frø, generer matrise og behandle.
+
+    Args:
+        N: Matrisestørrelse.
+        random_seed: Frø for random (kan være None).
+        logger: Logger for debug/info.
+
+    Returns:
+        dict med nøkler:
+            'N': int,
+            'random_seed': int | None,
+            'matrise': list[list[int]],
+            'resultater': list[dict[str, Any]]
+    '''
+    if random_seed is not None:
+        rnd.seed(random_seed)
+        logger.debug('Pipeline bruker random_seed=%s', random_seed)
+
+    matrise = generer_matrise(N)
+    resultater = behandle_matrise(matrise)
+
+    return {
+        'N': N,
+        'random_seed': random_seed,
+        'matrise': matrise,
+        'resultater': resultater,
+    }
 
 
 # ---------- Hovedfunksjon ----------
@@ -328,36 +439,48 @@ def main() -> None:
     cli = build_parser().parse_args()
     cfg = merge_config(cli, load_config('config.json'), DEFAULTS)
 
-    # 2) Logging og valgfri seed
+    # 2) Logging
     setup_logging(bool(cfg.get('debug')))
     logger.debug('Effektiv konfig: %r', cfg)
 
-    # 3) Sett frø hvis gitt
-    seed = cfg.get('seed')
-    if seed is not None:
-        random.seed(seed)
-        logger.info('Bruker seed=%s', seed)
-
-    # 4) Finn N (interaktivt hvis ikke oppgitt)
+    # 3) Finn N (interaktivt hvis ikke oppgitt)
     size = cfg.get('size')
+    no_interactive = bool(getattr(cli, 'no_interactive', False))
+
     if size is None:
-        N = hent_brukerinput()
+        # Ikke tillat interaksjon hvis --no-interactive eller stdin ikke er TTY (teletypewriter)
+        if no_interactive:
+            raise SystemExit(
+                'Størrelsen (N) mangler. Kjør med -n/--size eller fjern --no-interactive.'
+            )
+        try:
+            N = hent_brukerinput()
+        except (EOFError, OSError):
+            raise SystemExit('Størrelsen (N) mangler, og interaktiv input er ikke tilgjengelig. Kjør med -n/--size.')
     else:
         N = int(size)
         if N <= 0:
             print('Ugyldig verdi! N må være et positivt heltall.')
-            print("Oppgi en ny verdi interaktivt i stedet.\n")
-            N = hent_brukerinput()
+            if no_interactive:
+                raise SystemExit('Avslutter fordi interaktiv modus er deaktivert.')
+            try:
+                print('Oppgi en ny verdi interaktivt i stedet.\n')
+                N = hent_brukerinput()
+            except (EOFError, OSError):
+                raise SystemExit('Interaktiv input er ikke tilgjengelig. Oppgi en gyldig -n/--size.')
 
-    # 5) Generer, behandle og skriv ut
+    # 4) Les random_seed og kjør pipeline (REN beregning)
+    random_seed = cfg.get('random_seed')
     logger.info('Generer matrise N=%d', N)
-    matrise = generer_matrise(N)
-    resultater = behandle_matrise(matrise)
+    pipe = run_pipeline(N, random_seed, logger)
+    matrise = pipe['matrise']   # (ikke brukt videre nå, men greit å eksponere om ønskelig)
+    resultater = pipe['resultater']
 
-    print('\n=== Resulater ===')
+    # 5) Skriv ut
+    print('\n=== Resultater ===')
     skriv_resultater(resultater)
 
-    # 5) Valgfri lagring
+    # 6) Valgfri lagring
     skal_lagre = bool(cfg.get('save'))
     if not skal_lagre:
         svar = input('\nVil du lagre resultatene til JSON? (y/N): ').strip().lower()
@@ -367,17 +490,23 @@ def main() -> None:
         print('\n(ikke lagret)')
         return
 
+    # 7) Bestem utdatafil
     # Opprett lagringsmappe
     output_dir = Path('results')
     output_dir.mkdir(exist_ok=True)
-
     # Bruk angitt filnavn eller generer nytt
     if cfg.get('output'):
-        filnavn = output_dir / cfg['output']
+        given = Path(cfg['output'])
+        # Absolutt sti eller relativ sti som inneholder katalogdeler: bruk den som den er (respekter brukerens valg).
+        if given.is_absolute() or len(given.parts) > 1:
+            filnavn = given
+        else:
+            filnavn = output_dir / given
     else:
         filnavn = output_dir / lag_timestamp_navn(prefix='resultater', ext='.json')
 
-    path = lagre_til_json(resultater, filnavn, N, seed)
+    # 8) Lagre
+    path = lagre_til_json(resultater, filnavn, N, random_seed)
     logger.info('Resultater skrevet til %s', path.resolve())
     print(f'\nLagret: {path.resolve()}')
 
