@@ -1,5 +1,5 @@
 # Detaljert README.md for O3_The_Rectangle2D_Class:
-#
+# https://github.com/yitong-sun/25H_DTE_2510_Prosjekter/blob/main/O3/O3_The_Rectangle2D_Class/README.md
 
 '''
 The_Rectangle2D_Class:
