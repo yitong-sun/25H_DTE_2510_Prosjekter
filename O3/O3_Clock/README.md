@@ -59,6 +59,15 @@ print(clk.day)       # 1
   * Endring av `month` **revaliderer** `day` automatisk.
   * Ugyldig `day` settes til **1**.
 
+
+### Hjelpemetoder
+
+* `is_leapyear(year: int) -> bool`
+  Skuddår dersom (delelig med 4 og ikke 100) eller (delelig med 400).
+* `days_in_month(month: int, year: int) -> int`
+  31/30/28/29 basert på måned og skuddår.
+
+
 ### Inkrement
 
 * `inc_sec()` → ruller til minutt ved 60
@@ -68,21 +77,17 @@ print(clk.day)       # 1
 * `inc_month()` → ruller til år ved 13
 * `inc_year()` → øker år med 1
 
-### Hjelpemetoder
-
-* `is_leapyear(year: int) -> bool`
-  Skuddår dersom (delelig med 4 og ikke 100) eller (delelig med 400).
-* `days_in_month(month: int, year: int) -> int`
-  31/30/28/29 basert på måned og skuddår.
-
-### Strengrepresentasjon
-
-* `__str__()` → `"YYYY-MM-DD HH:MM:SS"` (nullpadding)
 
 ### Samlet setting
 
 * `set_clock(year, month, day, hour, min, sec)`
   Setter alle verdier i korrekt rekkefølge med validering.
+
+
+### Strengrepresentasjon
+
+* `__str__()` → `"YYYY-MM-DD HH:MM:SS"` (nullpadding)
+
 
 ## Testdekning (høydepunkter)
 
